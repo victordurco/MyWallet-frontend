@@ -10,13 +10,13 @@ export default function SignUp() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const history = useHistory();
 
-    const login = (event) => {
+    const register = (event) => {
         event.preventDefault();
     };
 
     return (
         <Background>
-            <Wrapper onSubmit={login}>
+            <Wrapper onSubmit={register}>
                 <Logo src={logo} />
                 <Input
                     type="text"

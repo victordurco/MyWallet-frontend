@@ -50,6 +50,7 @@ const Background = styled.div`
 
 const Header = styled.header`
     width: 100%;
+    max-width: 600px;
     height: 31px;
     display: flex;
     flex-direction: row;
@@ -78,6 +79,7 @@ const ExitButton = styled.button`
 const RegistersContainer = styled.div`
     background-color: white;
     width: 100%;
+    max-width: 600px;
     height: 75%;
     border-radius: 5px;
     margin-bottom: 13px;
@@ -85,6 +87,7 @@ const RegistersContainer = styled.div`
 
 const Footer = styled.footer`
     width: 100%;
+    max-width: 400px;
     height: 114px;
     display: flex;
     flex-direction: row;
