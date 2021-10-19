@@ -5,6 +5,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Wallet from "./pages/Wallet";
 import NewEntry from "./pages/NewEntry";
+import NewExit from "./pages/NewExit";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/signup" exact component={SignUp} />
                     <Route path="/wallet" exact component={Wallet} />
                     <Route path="/new-entry" exact component={NewEntry} />
+                    <Route path="/new-exit" exact component={NewExit} />
                 </Switch>
             </Router>
         </div>
