@@ -3,9 +3,11 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../img/myWallet.png";
 
-export default function SignIn() {
+export default function SignUp() {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const history = useHistory();
 
     const login = (event) => {
@@ -16,6 +18,12 @@ export default function SignIn() {
         <Background>
             <Wrapper onSubmit={login}>
                 <Logo src={logo} />
+                <Input
+                    type="text"
+                    placeholder="Nome"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                />
                 <Input
                     type="email"
                     placeholder="E-mail"
@@ -28,10 +36,16 @@ export default function SignIn() {
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
                 />
-                <Button type="submit">Entrar</Button>
-                <SignUpPath onClick={() => history.push("/signup")}>
-                    Primeira vez? Cadastre-se!
-                </SignUpPath>
+                <Input
+                    type="password"
+                    placeholder="Confirme a senha"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    value={confirmPassword}
+                />
+                <Button type="submit">Cadastrar</Button>
+                <SignInPath onClick={() => history.push("/")}>
+                    Já tem uma conta? Entre agora!
+                </SignInPath>
             </Wrapper>
         </Background>
     );
@@ -88,10 +102,10 @@ const Button = styled.button`
     font-weight: 700;
     font-size: 20px;
     font-family: "Raleway", sans-serif;
-    margin-bottom: 36px;
+    margin-bottom: 32px;
 `;
 
-const SignUpPath = styled.button`
+const SignInPath = styled.button`
     width: auto;
     height: 18px;
     background-color: inherit;
