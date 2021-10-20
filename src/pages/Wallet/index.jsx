@@ -7,11 +7,16 @@ import { RemoveCircleOutline } from "react-ionicons";
 
 export default function Wallet() {
     const history = useHistory();
+
+    const logout = () => {
+        history.push("/");
+    };
+
     return (
         <Background>
             <Header>
                 <UserTitle>Olá, Victor</UserTitle>
-                <ExitButton>
+                <ExitButton onClick={logout}>
                     <ExitOutline color={"#ffffff"} height="26px" width="26px" />
                 </ExitButton>
             </Header>
@@ -87,7 +92,7 @@ const RegistersContainer = styled.div`
 
 const Footer = styled.footer`
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     height: 114px;
     display: flex;
     flex-direction: row;
@@ -95,7 +100,8 @@ const Footer = styled.footer`
 `;
 
 const MainButton = styled.button`
-    width: 155px;
+    width: 41vw;
+    max-width: 250px;
     height: 100%;
     border-radius: 5px;
     background-color: #a328d6;

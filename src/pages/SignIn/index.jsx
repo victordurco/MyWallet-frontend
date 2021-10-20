@@ -10,6 +10,7 @@ export default function SignIn() {
 
     const login = (event) => {
         event.preventDefault();
+        history.push("/wallet");
     };
 
     return (
