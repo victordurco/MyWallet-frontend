@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../img/myWallet.png";
+import { registerUser } from "../../service/service.auth.js";
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -12,6 +13,21 @@ export default function SignUp() {
 
     const register = (event) => {
         event.preventDefault();
+
+        if (!name || name.length < 3) return;
+        if (!email) return;
+        if (!password || !confirmPassword) return;
+        if (password !== confirmPassword) return;
+
+        registerUser(name, email, password)
+            .then(() => {
+                alert("Registro concluido com sucesso");
+                history.push("/");
+            })
+            .catch(() => {
+                alert("Deu ruim");
+                return;
+            });
     };
 
     return (
