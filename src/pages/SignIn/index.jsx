@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../img/myWallet.png";
+import { loginUser } from "../../service/service.auth.js";
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
@@ -10,7 +11,19 @@ export default function SignIn() {
 
     const login = (event) => {
         event.preventDefault();
-        history.push("/wallet");
+
+        if (!email) return;
+        if (!password) return;
+
+        loginUser(email, password)
+            .then((res) => {
+                localStorage.setItem("userInfo", JSON.stringify(res.data));
+                history.push("/wallet");
+            })
+            .catch(() => {
+                alert("Deu ruim");
+                return;
+            });
     };
 
     return (

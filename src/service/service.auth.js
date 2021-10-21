@@ -12,4 +12,13 @@ const registerUser = (name, email, password) => {
     return axios.post(`${API_URL}/sign-up`, body);
 };
 
-export { registerUser };
+const loginUser = (email, password) => {
+    const body = {
+        email,
+        password,
+    };
+
+    return axios.post(`${API_URL}/sign-in`, body);
+};
+
+export { registerUser, loginUser };
