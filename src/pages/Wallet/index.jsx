@@ -1,4 +1,4 @@
-import { React, useState, useContext } from "react";
+import { React, useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { ExitOutline } from "react-ionicons";
@@ -6,41 +6,79 @@ import { AddCircleOutline } from "react-ionicons";
 import { RemoveCircleOutline } from "react-ionicons";
 import UserContext from "../../contexts/UserContext";
 import Register from "./Register";
+import { getUserRegisters } from "../../service/service.registers";
+import dayjs from "dayjs";
 
 export default function Wallet() {
     const history = useHistory();
-    const [total, setTotal] = useState('2502,65');
-    const [registers, setRegisters] = useState([
-        {
-            id: 1,
-            description: "Compra do mes",
-            type: "exit",
-            date: "20/06",
-            valueInCents: "20000",
-        },
-        {
-            id: 1,
-            description: "Compra do mes",
-            type: "exit",
-            date: "20/06",
-            valueInCents: "20000",
-        },
-        {
-            id: 1,
-            description: "Compra do mes",
-            type: "entry",
-            date: "20/06",
-            valueInCents: "20000",
-        },
-    ]);
+    const [total, setTotal] = useState({
+        value: '0,00',
+        signal: 'positive'
+    });
+    const [registers, setRegisters] = useState([]);
+
     const {
         userInfo: { token, name },
+        setUserInfo
     } = useContext(UserContext);
 
     const logout = () => {
+        setUserInfo('');
         localStorage.removeItem("userInfo");
         history.push("/");
     };
+
+    const formatRegisters = (registers) => {
+        const formatedRegisters = [];
+        registers.forEach(r => {
+            const formated = {
+                id: r.id,
+                description: r.description,
+                type: r.typeName,
+                date: dayjs(r.date).format('DD/MM'),
+                valueInCents: r.value
+            };
+            formatedRegisters.push(formated);
+        });
+        return formatedRegisters;
+    };
+
+    const loadUserRegisters = () => {
+        getUserRegisters(token)
+            .then((res) => {
+                setRegisters(formatRegisters(res.data));
+            })
+            .catch(() => {
+                alert('Não foi possível carregar seus registros');
+            })
+    };
+
+    const calculateTotal = () => {
+        let total = 0;
+        registers.forEach((r) => {
+            if (r.type === "entry")
+                total += r.valueInCents;
+            if (r.type === "exit")
+                total -= r.valueInCents;
+        });
+        total = (total / 100).toFixed(2);
+        if (total < 0) {
+            total = total.toString().replace(".", ",").replace("-", "");
+            setTotal({ value: total, signal: 'negative' });
+        } else {
+            total = total.toString().replace(".", ",");
+            setTotal({ value: total, signal: 'positive' });
+        }
+
+    };
+
+    useEffect(() => {
+        loadUserRegisters();
+    }, [token]);
+
+    useEffect(() => {
+        calculateTotal();
+    }, [registers])
 
     return (
         <Background>
@@ -69,8 +107,8 @@ export default function Wallet() {
                     <TotalTitle>
                         SALDO
                     </TotalTitle>
-                    <TotalValue>
-                        {total}
+                    <TotalValue signal={total.signal}>
+                        {total.value}
                     </TotalValue>
                 </Total>
             </RegistersContainer>
@@ -215,5 +253,5 @@ const TotalTitle = styled.span`
 
 const TotalValue = styled.span`
     font-weight: 400;
-    color: green;
+    color: ${props => props.signal === 'positive' ? 'green' : 'red'};
 `;
