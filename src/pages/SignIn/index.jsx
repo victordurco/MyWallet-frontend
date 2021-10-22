@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../img/myWallet.png";
 import { loginUser } from "../../service/service.auth.js";
+import UserContext from "../../contexts/UserContext";
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const history = useHistory();
+    const { setUserInfo } = useContext(UserContext);
 
     const login = (event) => {
         event.preventDefault();
@@ -17,6 +19,7 @@ export default function SignIn() {
 
         loginUser(email, password)
             .then((res) => {
+                setUserInfo(res.data);
                 localStorage.setItem("userInfo", JSON.stringify(res.data));
                 history.push("/wallet");
             })
