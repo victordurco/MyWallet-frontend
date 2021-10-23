@@ -103,14 +103,18 @@ export default function Wallet() {
                         />
                     )
                 }
-                <Total>
-                    <TotalTitle>
-                        SALDO
-                    </TotalTitle>
-                    <TotalValue signal={total.signal}>
-                        {total.value}
-                    </TotalValue>
-                </Total>
+                {!registers.length ?
+                    <></>
+                    :
+                    <Total>
+                        <TotalTitle>
+                            SALDO
+                        </TotalTitle>
+                        <TotalValue signal={total.signal}>
+                            {total.value}
+                        </TotalValue>
+                    </Total>
+                }
             </RegistersContainer>
             <Footer>
                 <MainButton onClick={() => history.push("/new-entry")}>
