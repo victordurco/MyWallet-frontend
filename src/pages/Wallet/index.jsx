@@ -18,16 +18,10 @@ export default function Wallet() {
     const [registers, setRegisters] = useState([]);
     const registersEndRef = useRef(null)
 
-    if (localStorage.getItem('userInfo') === null) {
-        history.push('/');
-    } else {
-
-    }
-
+    if (localStorage.getItem('userInfo') === null) history.push('/');
 
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     const { name, token } = userInfo ? userInfo : {};
-
 
     const logout = () => {
         localStorage.removeItem("userInfo");
