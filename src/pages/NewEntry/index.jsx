@@ -35,6 +35,7 @@ export default function NewEntry() {
             });
     };
 
+
     return (
         <Background>
             <Header>Nova Entrada</Header>

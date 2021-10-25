@@ -1,4 +1,4 @@
-import { React, useState, useContext, useEffect } from "react";
+import { React, useState, useContext, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { ExitOutline } from "react-ionicons";
@@ -16,6 +16,7 @@ export default function Wallet() {
         signal: 'positive'
     });
     const [registers, setRegisters] = useState([]);
+    const registersEndRef = useRef(null)
 
     const {
         userInfo: { token, name },
@@ -72,12 +73,17 @@ export default function Wallet() {
 
     };
 
+    const scrollToBottom = () => {
+        registersEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+
     useEffect(() => {
         loadUserRegisters();
     }, [token]);
 
     useEffect(() => {
         calculateTotal();
+        scrollToBottom()
     }, [registers])
 
     return (
@@ -103,19 +109,20 @@ export default function Wallet() {
                         />
                     )
                 }
-                {!registers.length ?
-                    <></>
-                    :
-                    <Total>
-                        <TotalTitle>
-                            SALDO
-                        </TotalTitle>
-                        <TotalValue signal={total.signal}>
-                            {total.value}
-                        </TotalValue>
-                    </Total>
-                }
+                <div ref={registersEndRef} />
             </RegistersContainer>
+            {!registers.length ?
+                <></>
+                :
+                <Total>
+                    <TotalTitle>
+                        SALDO
+                    </TotalTitle>
+                    <TotalValue signal={total.signal}>
+                        {total.value}
+                    </TotalValue>
+                </Total>
+            }
             <Footer>
                 <MainButton onClick={() => history.push("/new-entry")}>
                     <AddCircleOutline
@@ -180,9 +187,12 @@ const RegistersContainer = styled.div`
     background-color: white;
     width: 100%;
     max-width: 600px;
-    height: 75%;
-    border-radius: 5px;
-    margin-bottom: 13px;
+    height: ${props => props.registers > 0 ? '70%' : '75%'};
+    margin-bottom: ${props => props.registers > 0 ? '0' : '13px'};
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: ${props => props.registers > 0 ? '0' : '5px'};
+    border-bottom-right-radius: ${props => props.registers > 0 ? '0' : '5px'};
     display: flex;
     flex-direction: column;
     position: relative;
@@ -190,6 +200,7 @@ const RegistersContainer = styled.div`
     left: 0;
     align-items: ${(props) => (props.registers > 0 ? "flex-start" : "initial")};
     padding-top: 18px;
+    overflow-y: scroll;
 `;
 
 const Footer = styled.footer`
@@ -240,22 +251,26 @@ const EmptyRegistersText = styled.span`
 
 const Total = styled.div`
     width: 100%;
-    height: 20px;
+    height: 25px;
     font-size: 17px;
     display: flex;
     justify-content: space-between;
-    padding: 0 12px;
-    position: absolute;
-    bottom: 10px;
-    left: 0;
+    padding: 0 12px 20px 12px;
+    margin-bottom: 13px;
+    background-color: white;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: none;
 `;
 
 const TotalTitle = styled.span`
     font-weight: 700;
     color: black;
+    margin: auto 0;
 `;
 
 const TotalValue = styled.span`
     font-weight: 400;
     color: ${props => props.signal === 'positive' ? 'green' : 'red'};
+    margin: auto 0;
 `;

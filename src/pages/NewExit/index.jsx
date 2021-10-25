@@ -1,15 +1,37 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import { postNewRegister } from "../../service/service.registers";
+import UserContext from "../../contexts/UserContext";
 
 export default function NewExit() {
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
     const history = useHistory();
+    const valueRegex = /^[\d,.?!]+$/;
+    const {
+        userInfo: { token, name }
+    } = useContext(UserContext);
 
     const saveExit = (event) => {
         event.preventDefault();
-        history.push("/wallet");
+
+        if (!amount || !valueRegex.test(amount)) return alert('Preencha os campos corretamente');
+
+        const body = {
+            value: amount,
+            description: description,
+            type: 2 //type id for "exit"
+        };
+
+        postNewRegister(token, body)
+            .then(() => {
+                history.push("/wallet");
+            })
+            .catch(() => {
+                alert('Erro ao enviar dados');
+                history.push("/wallet");
+            });
     };
 
     return (
