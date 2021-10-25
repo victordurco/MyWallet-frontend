@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { postNewRegister } from "../../service/service.registers";
 import UserContext from "../../contexts/UserContext";
 import { CloseCircleOutline } from 'react-ionicons';
+import Swal from 'sweetalert2';
 
 export default function NewExit() {
     const [amount, setAmount] = useState("");
@@ -17,7 +18,21 @@ export default function NewExit() {
     const saveExit = (event) => {
         event.preventDefault();
 
-        if (!amount || !valueRegex.test(amount)) return alert('Preencha os campos corretamente');
+        if (!amount || !description) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Preencha todos os campos'
+            })
+        }
+
+        if (!valueRegex.test(amount)) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Preencha os campos corretamente'
+            })
+        }
 
         const body = {
             value: amount,
@@ -28,6 +43,14 @@ export default function NewExit() {
         postNewRegister(token, body)
             .then(() => {
                 history.push("/wallet");
+                Swal.fire({
+                    position: 'top',
+                    icon: 'success',
+                    title: 'Seu saldo foi atualizado',
+                    showConfirmButton: false,
+                    timer: 900,
+                    width: 250
+                });
             })
             .catch(() => {
                 alert('Erro ao enviar dados');
