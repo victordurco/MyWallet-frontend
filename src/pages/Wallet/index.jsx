@@ -1,10 +1,9 @@
-import { React, useState, useContext, useEffect, useRef } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { ExitOutline } from "react-ionicons";
 import { AddCircleOutline } from "react-ionicons";
 import { RemoveCircleOutline } from "react-ionicons";
-import UserContext from "../../contexts/UserContext";
 import Register from "./Register";
 import { getUserRegisters } from "../../service/service.registers";
 import dayjs from "dayjs";
@@ -250,6 +249,7 @@ const EmptyRegistersText = styled.span`
 
 const Total = styled.div`
     width: 100%;
+    max-width: 600px;
     height: 25px;
     font-size: 17px;
     display: flex;

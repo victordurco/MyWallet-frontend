@@ -1,8 +1,7 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { postNewRegister } from "../../service/service.registers";
-import UserContext from "../../contexts/UserContext";
 import { CloseCircleOutline } from 'react-ionicons';
 import Swal from 'sweetalert2';
 
@@ -11,9 +10,11 @@ export default function NewExit() {
     const [description, setDescription] = useState("");
     const history = useHistory();
     const valueRegex = /^[\d,.?!]+$/;
-    const {
-        userInfo: { token, name }
-    } = useContext(UserContext);
+
+    if (localStorage.getItem('userInfo') === null) history.push('/');
+
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const { name, token } = userInfo ? userInfo : {};
 
     const saveExit = (event) => {
         event.preventDefault();
