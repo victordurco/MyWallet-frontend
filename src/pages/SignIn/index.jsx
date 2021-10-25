@@ -4,6 +4,7 @@ import styled from "styled-components";
 import logo from "../../img/myWallet.png";
 import { loginUser } from "../../service/service.auth.js";
 import UserContext from "../../contexts/UserContext";
+import Swal from 'sweetalert2';
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
@@ -14,8 +15,13 @@ export default function SignIn() {
     const login = (event) => {
         event.preventDefault();
 
-        if (!email) return;
-        if (!password) return;
+        if (!email || !password) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Preencha todos os campos'
+            })
+        }
 
         loginUser(email, password)
             .then((res) => {
@@ -24,7 +30,11 @@ export default function SignIn() {
                 history.push("/wallet");
             })
             .catch(() => {
-                alert("Deu ruim");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Algo deu errado no login'
+                })
                 return;
             });
     };
