@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { postNewRegister } from "../../service/service.registers";
 import UserContext from "../../contexts/UserContext";
+import { CloseCircleOutline } from 'react-ionicons';
 
 export default function NewExit() {
     const [amount, setAmount] = useState("");
@@ -34,9 +35,22 @@ export default function NewExit() {
             });
     };
 
+    const backToWallet = () => {
+        history.push("/wallet");
+    }
+
+
     return (
         <Background>
-            <Header>Nova Saída</Header>
+            <Header>
+                Nova Saída
+                <CloseCircleOutline
+                    color={'#ffffff'}
+                    height="32px"
+                    width="32px"
+                    onClick={backToWallet}
+                />
+            </Header>
             <Wrapper onSubmit={saveExit}>
                 <Input
                     type="text"
@@ -75,6 +89,9 @@ const Header = styled.header`
     font-size: 26px;
     font-weight: 700;
     margin-bottom: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 `;
 
 const Wrapper = styled.form`
