@@ -265,11 +265,11 @@ const Total = styled.div`
 const TotalTitle = styled.span`
     font-weight: 700;
     color: black;
-    margin: auto 0;
+    margin-top: 5px;
 `;
 
 const TotalValue = styled.span`
     font-weight: 400;
     color: ${props => props.signal === 'positive' ? 'green' : 'red'};
-    margin: auto 0;
+    margin-top: 3px;
 `;
