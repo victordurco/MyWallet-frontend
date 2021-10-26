@@ -7,6 +7,8 @@ import { RemoveCircleOutline } from "react-ionicons";
 import Register from "./Register";
 import { getUserRegisters } from "../../service/service.registers";
 import dayjs from "dayjs";
+import { logoutUser } from "../../service/service.auth";
+import Swal from 'sweetalert2';
 
 export default function Wallet() {
     const history = useHistory();
@@ -23,8 +25,18 @@ export default function Wallet() {
     const { name, token } = userInfo ? userInfo : {};
 
     const logout = () => {
-        localStorage.removeItem("userInfo");
-        history.push("/");
+        logoutUser(token)
+            .then(() => {
+                localStorage.removeItem("userInfo");
+                history.push("/");
+            })
+            .catch(() => {
+                return Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Houve um erro com seu logout'
+                })
+            });
     };
 
     const formatRegisters = (registers) => {
