@@ -14,7 +14,7 @@ export default function NewExit() {
     if (localStorage.getItem('userInfo') === null) history.push('/');
 
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    const { name, token } = userInfo ? userInfo : {};
+    const { token } = userInfo ? userInfo : {};
 
     const saveExit = (event) => {
         event.preventDefault();

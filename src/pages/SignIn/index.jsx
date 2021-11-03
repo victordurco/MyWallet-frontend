@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../img/myWallet.png";
@@ -51,6 +51,7 @@ export default function SignIn() {
                     placeholder="Senha"
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
+                    autocomplete="on"
                 />
                 <Button type="submit">Entrar</Button>
                 <SignUpPath onClick={() => history.push("/signup")}>
