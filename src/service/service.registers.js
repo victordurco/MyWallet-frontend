@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://backmywallet.herokuapp.com";
+const API_URL = "http://localhost:4000/registers";
 
 const makeConfig = (token) => {
 	const config = {

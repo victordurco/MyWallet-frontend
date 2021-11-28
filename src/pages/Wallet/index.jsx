@@ -212,6 +212,17 @@ const RegistersContainer = styled.div`
     align-items: ${(props) => (props.registers > 0 ? "flex-start" : "initial")};
     padding-top: 18px;
     overflow-y: scroll;
+    ::-webkit-scrollbar {
+    // Width of vertical scroll bar
+    width: 8px;
+    // Height of horizontal scroll bar
+    height: 10px;
+
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: #a54fcaae;
+  }
 `;
 
 const Footer = styled.footer`
