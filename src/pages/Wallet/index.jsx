@@ -3,13 +3,12 @@ import { React, useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { ExitOutline } from "react-ionicons";
-import { AddCircleOutline } from "react-ionicons";
-import { RemoveCircleOutline } from "react-ionicons";
 import Register from "./Register";
 import { getUserRegisters } from "../../service/service.registers";
 import dayjs from "dayjs";
 import { logoutUser } from "../../service/service.auth";
 import Swal from 'sweetalert2';
+import NewRegisterButton from '../shared/NewRegisterButton';
 
 export default function Wallet() {
     const history = useHistory();
@@ -75,7 +74,7 @@ export default function Wallet() {
         });
         total = (total / 100).toFixed(2);
         if (total < 0) {
-            total = total.toString().replace(".", ",").replace("-", "");
+            total = total.toString().replace(".", ",");
             setTotal({ value: total, signal: 'negative' });
         } else {
             total = total.toString().replace(".", ",");
@@ -135,22 +134,8 @@ export default function Wallet() {
                 </Total>
             }
             <Footer>
-                <MainButton onClick={() => history.push("/new-entry")}>
-                    <AddCircleOutline
-                        color={"#ffffff"}
-                        height="22px"
-                        width="22px"
-                    />
-                    <ButtonTitle>Nova Entrada</ButtonTitle>
-                </MainButton>
-                <MainButton onClick={() => history.push("/new-exit")}>
-                    <RemoveCircleOutline
-                        color={"#ffffff"}
-                        height="23px"
-                        width="23px"
-                    />
-                    <ButtonTitle>Nova Saída</ButtonTitle>
-                </MainButton>
+                <NewRegisterButton type='entry' />
+                <NewRegisterButton type='exit' />
             </Footer>
         </Background>
     );
@@ -212,6 +197,17 @@ const RegistersContainer = styled.div`
     align-items: ${(props) => (props.registers > 0 ? "flex-start" : "initial")};
     padding-top: 18px;
     overflow-y: scroll;
+    ::-webkit-scrollbar {
+    // Width of vertical scroll bar
+    width: 8px;
+    // Height of horizontal scroll bar
+    height: 10px;
+
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: #a54fcaae;
+  }
 `;
 
 const Footer = styled.footer`
@@ -221,31 +217,6 @@ const Footer = styled.footer`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-`;
-
-const MainButton = styled.button`
-    width: 41vw;
-    max-width: 250px;
-    height: 100%;
-    border-radius: 5px;
-    background-color: #a328d6;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-`;
-
-const ButtonTitle = styled.span`
-    width: 64px;
-    height: 40px;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: inherit;
-    color: white;
-    font-size: 17px;
-    font-weight: 700;
-    text-align: left;
 `;
 
 const EmptyRegistersText = styled.span`
@@ -282,7 +253,7 @@ const TotalTitle = styled.span`
 `;
 
 const TotalValue = styled.span`
-    font-weight: 400;
+    font-weight: 700;
     color: ${props => props.signal === 'positive' ? 'green' : 'red'};
     margin-top: 3px;
 `;
