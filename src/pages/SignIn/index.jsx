@@ -1,19 +1,27 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
-import logo from "../../img/myWallet.png";
-import { loginUser } from "../../service/service.auth.js";
+
 import Swal from 'sweetalert2';
+import styled from "styled-components";
+
+import logo from "../../img/myWallet.png";
+import AuthButton from '../shared/AuthButton';
+import AuthInput from "../shared/AuthInput";
+
+import { loginUser } from "../../service/service.auth.js";
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
     const history = useHistory();
 
     const login = (event) => {
         event.preventDefault();
+        setLoading(true);
 
         if (!email || !password) {
+            setLoading(false);
             return Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -24,9 +32,11 @@ export default function SignIn() {
         loginUser(email, password)
             .then((res) => {
                 localStorage.setItem("userInfo", JSON.stringify(res.data));
+                setLoading(false);
                 history.push("/wallet");
             })
             .catch(() => {
+                setLoading(false);
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -40,20 +50,19 @@ export default function SignIn() {
         <Background>
             <Wrapper onSubmit={login}>
                 <Logo src={logo} />
-                <Input
+                <AuthInput
                     type="email"
                     placeholder="E-mail"
-                    onChange={(e) => setEmail(e.target.value)}
+                    setValue={setEmail}
                     value={email}
                 />
-                <Input
+                <AuthInput
                     type="password"
                     placeholder="Senha"
-                    onChange={(e) => setPassword(e.target.value)}
+                    setValue={setPassword}
                     value={password}
-                    autocomplete="on"
                 />
-                <Button type="submit">Entrar</Button>
+                <AuthButton title='Entrar' loading={loading} />
                 <SignUpPath onClick={() => history.push("/signup")}>
                     Primeira vez? Cadastre-se!
                 </SignUpPath>
@@ -84,36 +93,6 @@ const Wrapper = styled.form`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-`;
-
-const Input = styled.input`
-    width: 100%;
-    height: 58px;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 13px;
-    padding: 17px 15px 17px 15px;
-    font-size: 20px;
-
-    ::placeholder {
-        font-family: "Raleway", sans-serif;
-        font-weight: 400;
-        font-size: 20px;
-        color: black;
-    }
-`;
-
-const Button = styled.button`
-    width: 100%;
-    height: 46px;
-    border: none;
-    border-radius: 5px;
-    background-color: #a328d6;
-    color: white;
-    font-weight: 700;
-    font-size: 20px;
-    font-family: "Raleway", sans-serif;
-    margin-bottom: 36px;
 `;
 
 const SignUpPath = styled.button`

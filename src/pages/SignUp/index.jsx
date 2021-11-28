@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
-import logo from "../../img/myWallet.png";
-import { registerUser } from "../../service/service.auth.js";
+
 import Swal from "sweetalert2";
+import styled from "styled-components";
+
+import logo from "../../img/myWallet.png";
+
+import { registerUser } from "../../service/service.auth.js";
+
+import AuthButton from "../shared/AuthButton";
+import AuthInput from "../shared/AuthInput";
 
 export default function SignUp() {
     const [name, setName] = useState("");
@@ -66,31 +72,31 @@ export default function SignUp() {
         <Background>
             <Wrapper onSubmit={register}>
                 <Logo src={logo} />
-                <Input
+                <AuthInput
                     type="text"
                     placeholder="Nome"
-                    onChange={(e) => setName(e.target.value)}
+                    setValue={setName}
                     value={name}
                 />
-                <Input
+                <AuthInput
                     type="email"
                     placeholder="E-mail"
-                    onChange={(e) => setEmail(e.target.value)}
+                    setValue={setEmail}
                     value={email}
                 />
-                <Input
+                <AuthInput
                     type="password"
                     placeholder="Senha"
-                    onChange={(e) => setPassword(e.target.value)}
+                    setValue={setPassword}
                     value={password}
                 />
-                <Input
+                <AuthInput
                     type="password"
                     placeholder="Confirme a senha"
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    setValue={setConfirmPassword}
                     value={confirmPassword}
                 />
-                <Button type="submit">Cadastrar</Button>
+                <AuthButton type="submit" title="Cadastrar" />
                 <SignInPath onClick={() => history.push("/")}>
                     Já tem uma conta? Entre agora!
                 </SignInPath>
@@ -121,36 +127,6 @@ const Wrapper = styled.form`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-`;
-
-const Input = styled.input`
-    width: 100%;
-    height: 58px;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 13px;
-    padding: 17px 15px 17px 15px;
-    font-size: 20px;
-
-    ::placeholder {
-        font-family: "Raleway", sans-serif;
-        font-weight: 400;
-        font-size: 20px;
-        color: black;
-    }
-`;
-
-const Button = styled.button`
-    width: 100%;
-    height: 46px;
-    border: none;
-    border-radius: 5px;
-    background-color: #a328d6;
-    color: white;
-    font-weight: 700;
-    font-size: 20px;
-    font-family: "Raleway", sans-serif;
-    margin-bottom: 32px;
 `;
 
 const SignInPath = styled.button`

@@ -31,7 +31,12 @@ const RegisterContainer = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 0 12px;
-    margin: 12px 0;
+    margin: 0 0 15px 0;
+    transition: all 400ms ease-out;
+    :hover{
+        background-color: #a54fca44
+    }
+
 `;
 
 const Date = styled.span`

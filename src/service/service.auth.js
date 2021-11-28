@@ -1,15 +1,15 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:4000";
+const API_URL = process.env.REACT_APP_URL_API;
 
 const makeConfig = (token) => {
-	const config = {
-		headers: {
-			'Authorization': `Bearer ${token}`
-		}
-	};
-	
-	return config;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    return config;
 };
 
 const registerUser = (name, email, password) => {
@@ -31,12 +31,8 @@ const loginUser = (email, password) => {
     return axios.post(`${API_URL}/sign-in`, body);
 };
 
-const logoutUser =  (token) => {
+const logoutUser = (token) => {
     return axios.post(`${API_URL}/sign-out`, {}, makeConfig(token));
 };
 
-export { 
-    registerUser, 
-    loginUser, 
-    logoutUser 
-};
+export { registerUser, loginUser, logoutUser };
