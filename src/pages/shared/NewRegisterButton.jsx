@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { AddCircleOutline } from "react-ionicons";
 import { RemoveCircleOutline } from "react-ionicons";
 
-const NewRegisterButton = ({ type }) => {
+export default function NewRegisterButton({ type }) {
     const history = useHistory();
     const nextPage = type === 'entry' ? '/new-entry' : '/new-exit';
     const buttonTitle = type === 'entry' ? 'Nova entrada' : 'Nova saída';
@@ -27,8 +27,6 @@ const NewRegisterButton = ({ type }) => {
         </MainButton>
     );
 };
-
-export default NewRegisterButton
 
 const MainButton = styled.button`
     width: 41vw;

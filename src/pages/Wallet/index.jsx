@@ -1,13 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { React, useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
+
+import dayjs from "dayjs";
+import Swal from 'sweetalert2';
 import styled from "styled-components";
+
+import { getUserRegisters } from "../../service/service.registers";
+import { logoutUser } from "../../service/service.auth";
+
 import { ExitOutline } from "react-ionicons";
 import Register from "./Register";
-import { getUserRegisters } from "../../service/service.registers";
-import dayjs from "dayjs";
-import { logoutUser } from "../../service/service.auth";
-import Swal from 'sweetalert2';
 import NewRegisterButton from '../shared/NewRegisterButton';
 
 export default function Wallet() {
@@ -112,6 +115,10 @@ export default function Wallet() {
                     :
                     registers.map((register) =>
                         <Register
+                            key={register.id}
+                            id={register.id}
+                            token={token}
+                            loadUserRegisters={loadUserRegisters}
                             description={register.description}
                             type={register.type}
                             date={register.date}
@@ -149,6 +156,18 @@ const Background = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 25px 25px 16px 25px;
+       @keyframes moveInDown {
+        0%{
+            opacity: 0;
+            transform: translateY(-300px);
+            }
+
+        100%{
+            opacity: 1;
+            transform: translate(0);
+            }
+        }
+        animation: moveInDown .4s;
 `;
 
 const Header = styled.header`

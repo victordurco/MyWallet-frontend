@@ -112,6 +112,18 @@ const Background = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+       @keyframes moveInRight {
+        0%{
+            opacity: 0;
+            transform: translateX(300px);
+            }
+
+        100%{
+            opacity: 1;
+            transform: translate(0);
+            }
+        }
+        animation: moveInRight .4s;
 `;
 
 const Logo = styled.img`

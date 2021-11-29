@@ -26,10 +26,10 @@ const GlobalStyle = createGlobalStyle`
     font: inherit;
     font-family: 'Raleway', sans-serif;
     vertical-align: baseline;
-    
     }
 	html {
 		background: #333;
+        
 	}
     /* HTML5 display-role reset for older browsers */
     article, aside, details, figcaption, figure, 

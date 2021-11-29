@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const AuthInput = ({ type, placeholder, value, setValue }) => {
+export default function AuthInput({ type, placeholder, value, setValue }) {
     return (
         <Input
             type={type}
@@ -12,8 +12,6 @@ const AuthInput = ({ type, placeholder, value, setValue }) => {
         />
     );
 };
-
-export default AuthInput;
 
 const Input = styled.input`
     width: 100%;

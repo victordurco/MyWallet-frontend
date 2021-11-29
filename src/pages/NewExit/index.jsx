@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { postNewRegister } from "../../service/service.registers";
-import { CloseCircleOutline } from 'react-ionicons';
 import Swal from 'sweetalert2';
+import { CloseCircleOutline } from 'react-ionicons';
+
+import { postNewRegister } from "../../service/service.registers";
+
+import AddRegisterButton from '../shared/AddRegisterButton';
+import RegisterInput from '../shared/RegisterInput';
 
 export default function NewExit() {
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
+    const [loading, setLoading] = useState(false);
     const history = useHistory();
     const valueRegex = /^[\d,.?!]+$/;
 
@@ -18,8 +23,10 @@ export default function NewExit() {
 
     const saveExit = (event) => {
         event.preventDefault();
+        setLoading(true);
 
         if (!amount || !description) {
+            setLoading(false);
             return Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -28,6 +35,7 @@ export default function NewExit() {
         }
 
         if (!valueRegex.test(amount)) {
+            setLoading(false);
             return Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -43,6 +51,7 @@ export default function NewExit() {
 
         postNewRegister(token, body)
             .then(() => {
+                setLoading(false);
                 history.push("/wallet");
                 Swal.fire({
                     position: 'top',
@@ -54,6 +63,7 @@ export default function NewExit() {
                 });
             })
             .catch(() => {
+                setLoading(false);
                 alert('Erro ao enviar dados');
                 history.push("/wallet");
             });
@@ -76,20 +86,19 @@ export default function NewExit() {
                 />
             </Header>
             <Wrapper onSubmit={saveExit}>
-                <Input
-                    type="text"
+                <RegisterInput
+                    type='currency'
                     placeholder="Valor"
-                    onChange={(e) => setAmount(e.target.value)}
+                    setValue={setAmount}
                     value={amount}
-                    inputProps={{ inputMode: "numeric" }}
                 />
-                <Input
+                <RegisterInput
                     type="text"
                     placeholder="Descrição"
-                    onChange={(e) => setDescription(e.target.value)}
+                    setValue={setDescription}
                     value={description}
                 />
-                <Button type="submit">Salvar saída</Button>
+                <AddRegisterButton loading={loading} title="Salvar saída" />
             </Wrapper>
         </Background>
     );
@@ -103,6 +112,18 @@ const Background = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 25px;
+     @keyframes moveInUp {
+        0%{
+            opacity: 0;
+            transform: translateY(300px);
+            }
+
+        100%{
+            opacity: 1;
+            transform: translate(0);
+            }
+        }
+        animation: moveInUp .4s;
 `;
 
 const Header = styled.header`
@@ -127,32 +148,3 @@ const Wrapper = styled.form`
     align-items: center;
 `;
 
-const Input = styled.input`
-    width: 100%;
-    height: 58px;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 13px;
-    padding: 17px 15px 17px 15px;
-    font-size: 20px;
-
-    ::placeholder {
-        font-family: "Raleway", sans-serif;
-        font-weight: 400;
-        font-size: 20px;
-        color: black;
-    }
-`;
-
-const Button = styled.button`
-    width: 100%;
-    height: 46px;
-    border: none;
-    border-radius: 5px;
-    background-color: #a328d6;
-    color: white;
-    font-weight: 700;
-    font-size: 20px;
-    font-family: "Raleway", sans-serif;
-    margin-bottom: 36px;
-`;

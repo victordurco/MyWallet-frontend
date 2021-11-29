@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 
-export default function AuthButton({ title, loading }) {
+export default function AddRegisterButton({ title, loading }) {
     return (
         <Button type="submit">
             {loading
