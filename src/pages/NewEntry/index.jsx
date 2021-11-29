@@ -4,10 +4,12 @@ import styled from "styled-components";
 import { postNewRegister } from "../../service/service.registers";
 import { CloseCircleOutline } from 'react-ionicons';
 import Swal from 'sweetalert2';
+import AddRegisterButton from '../shared/AddRegisterButton';
 
 export default function NewEntry() {
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
+    const [loading, setLoading] = useState(false);
     const history = useHistory();
     const valueRegex = /^[\d,.?!]+$/;
 
@@ -19,8 +21,10 @@ export default function NewEntry() {
 
     const saveEntry = (event) => {
         event.preventDefault();
+        setLoading(true);
 
         if (!amount || !description) {
+            setLoading(false);
             return Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -29,6 +33,7 @@ export default function NewEntry() {
         }
 
         if (!valueRegex.test(amount)) {
+            setLoading(false);
             return Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -44,6 +49,7 @@ export default function NewEntry() {
 
         postNewRegister(token, body)
             .then(() => {
+                setLoading(false);
                 history.push("/wallet");
                 Swal.fire({
                     position: 'top',
@@ -55,6 +61,7 @@ export default function NewEntry() {
                 });
             })
             .catch(() => {
+                setLoading(false);
                 alert('Erro ao enviar dados');
                 history.push("/wallet");
             });
@@ -89,7 +96,7 @@ export default function NewEntry() {
                     onChange={(e) => setDescription(e.target.value)}
                     value={description}
                 />
-                <Button type="submit">Salvar entrada</Button>
+                <AddRegisterButton title="Salvar entrada" loading={loading} />
             </Wrapper>
         </Background>
     );
@@ -142,17 +149,4 @@ const Input = styled.input`
         font-size: 20px;
         color: black;
     }
-`;
-
-const Button = styled.button`
-    width: 100%;
-    height: 46px;
-    border: none;
-    border-radius: 5px;
-    background-color: #a328d6;
-    color: white;
-    font-weight: 700;
-    font-size: 20px;
-    font-family: "Raleway", sans-serif;
-    margin-bottom: 36px;
 `;
