@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { postNewRegister } from "../../service/service.registers";
-import { CloseCircleOutline } from 'react-ionicons';
 import Swal from 'sweetalert2';
+import { CloseCircleOutline } from 'react-ionicons';
+
+import { postNewRegister } from "../../service/service.registers";
+
 import AddRegisterButton from '../shared/AddRegisterButton';
+import RegisterInput from '../shared/RegisterInput';
 
 export default function NewExit() {
     const [amount, setAmount] = useState("");
@@ -83,17 +86,16 @@ export default function NewExit() {
                 />
             </Header>
             <Wrapper onSubmit={saveExit}>
-                <Input
-                    type="text"
+                <RegisterInput
+                    type='currency'
                     placeholder="Valor"
-                    onChange={(e) => setAmount(e.target.value)}
+                    setValue={setAmount}
                     value={amount}
-                    inputProps={{ inputMode: "numeric" }}
                 />
-                <Input
+                <RegisterInput
                     type="text"
                     placeholder="Descrição"
-                    onChange={(e) => setDescription(e.target.value)}
+                    setValue={setDescription}
                     value={description}
                 />
                 <AddRegisterButton loading={loading} title="Salvar saída" />
@@ -144,22 +146,5 @@ const Wrapper = styled.form`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-`;
-
-const Input = styled.input`
-    width: 100%;
-    height: 58px;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 13px;
-    padding: 17px 15px 17px 15px;
-    font-size: 20px;
-
-    ::placeholder {
-        font-family: "Raleway", sans-serif;
-        font-weight: 400;
-        font-size: 20px;
-        color: black;
-    }
 `;
 
