@@ -20,4 +20,8 @@ const postNewRegister = (token, body) => {
     return axios.post(`${API_URL}/registers`, body, makeConfig(token));
 };
 
-export { getUserRegisters, postNewRegister };
+const deleteRegister = (token, body) => {
+    return axios.post(`${API_URL}/registers/delete`, body, makeConfig(token));
+};
+
+export { getUserRegisters, postNewRegister, deleteRegister };

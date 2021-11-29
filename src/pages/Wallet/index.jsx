@@ -13,10 +13,6 @@ import { ExitOutline } from "react-ionicons";
 import Register from "./Register";
 import NewRegisterButton from '../shared/NewRegisterButton';
 
-
-
-
-
 export default function Wallet() {
     const history = useHistory();
     const [total, setTotal] = useState({
@@ -119,6 +115,10 @@ export default function Wallet() {
                     :
                     registers.map((register) =>
                         <Register
+                            key={register.id}
+                            id={register.id}
+                            token={token}
+                            loadUserRegisters={loadUserRegisters}
                             description={register.description}
                             type={register.type}
                             date={register.date}

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 
-const AuthButton = ({ title, loading }) => {
+export default function AuthButton({ title, loading }) {
     return (
         <Button type="submit">
             {loading
@@ -19,8 +19,6 @@ const AuthButton = ({ title, loading }) => {
         </Button>
     );
 };
-
-export default AuthButton;
 
 const Button = styled.button`
     width: 100%;

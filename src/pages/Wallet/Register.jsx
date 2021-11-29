@@ -1,16 +1,61 @@
 import { React } from "react";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 import { TrashOutline } from 'react-ionicons';
-import { CreateOutline } from 'react-ionicons'
+import { CreateOutline } from 'react-ionicons';
 
-export default function Register({ description, date, type, valueInCents }) {
+import { deleteRegister } from '../../service/service.registers';
+
+export default function Register({
+    description,
+    date,
+    type,
+    valueInCents,
+    id,
+    token,
+    loadUserRegisters }) {
 
     const convertValue = (value) => {
         const decValue = (value / 100).toFixed(2);
         return decValue.toString().replace(".", ",");
     };
 
+    const handleDelete = () => {
+        Swal.fire({
+            title: 'Deseja mesmo deletar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sim, deletar!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteRegister(token, { id })
+                    .then(() => {
+                        Swal.fire({
+                            title: 'Deletado!',
+                            icon: 'success'
+                        }
+                        );
+                        loadUserRegisters();
+                    })
+                    .catch((e) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Tivemos um problema, tente de novo mais tarde',
+                        }
+                        );
+                    })
+            }
+        })
+    };
+
+    const handleEdit = () => {
+        Swal.fire('Em breve será possível editar seus registros!')
+    };
 
     const valueInReal = convertValue(valueInCents);
 
@@ -29,11 +74,13 @@ export default function Register({ description, date, type, valueInCents }) {
                     color={'#008031'}
                     height="17px"
                     width="17px"
+                    onClick={handleEdit}
                 />
                 <TrashButton
                     color={'#b30000'}
                     height="16px"
                     width="16px"
+                    onClick={handleDelete}
                 />
             </Options>
         </RegisterContainer>

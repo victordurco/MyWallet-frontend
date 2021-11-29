@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 
-const AddRegisterButton = ({ title, loading }) => {
+export default function AddRegisterButton({ title, loading }) {
     return (
         <Button type="submit">
             {loading
@@ -19,8 +19,6 @@ const AddRegisterButton = ({ title, loading }) => {
         </Button>
     );
 };
-
-export default AddRegisterButton;
 
 const Button = styled.button`
     width: 100%;
