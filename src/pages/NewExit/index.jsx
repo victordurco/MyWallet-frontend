@@ -110,6 +110,18 @@ const Background = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 25px;
+     @keyframes moveInUp {
+        0%{
+            opacity: 0;
+            transform: translateY(300px);
+            }
+
+        100%{
+            opacity: 1;
+            transform: translate(0);
+            }
+        }
+        animation: moveInUp .4s;
 `;
 
 const Header = styled.header`
