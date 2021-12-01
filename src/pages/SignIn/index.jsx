@@ -74,7 +74,7 @@ export default function SignIn() {
 const Background = styled.div`
     width: 100%;
     height: 100vh;
-    background-color: #8c11be;
+    background-image: linear-gradient(to bottom, #8c11be, #2F0640);
     display: flex;
     justify-content: center;
     align-items: center;

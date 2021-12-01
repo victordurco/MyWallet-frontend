@@ -33,7 +33,7 @@ const MainButton = styled.button`
     max-width: 250px;
     height: 100%;
     border-radius: 5px;
-    background-color: #a328d6;
+    background-color: #680D8C;
     padding: 10px;
     display: flex;
     flex-direction: column;
